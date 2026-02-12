@@ -1,3 +1,10 @@
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "About | Where Locals Eat",
+  description: "Learn about Porto Roots, a guide to traditional food places in Porto.",
+}
+
 export default function AboutPage() {
   return (
     <main className="mx-auto max-w-4xl p-6">

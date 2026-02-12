@@ -1,13 +1,36 @@
 import Link from "next/link"
-import type { Place } from "../../../lib/places"
-import { places } from "../../../lib/places"
+import type { Metadata } from "next"
+import { findPlaceBySlug, places } from "@/lib/places"
 
-export default function PlaceDetailPage({
-  params,
-}: {
-  params: { slug: string }
-}) {
-  const place = places.find((p: Place) => p.slug === params.slug)
+export function generateStaticParams(): Array<{ slug: string }> {
+  return places.map((place) => ({
+    slug: place.slug,
+  }))
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params
+  const place = findPlaceBySlug(slug)
+  
+  if (!place) {
+    return {
+      title: "Place Not Found | Where Locals Eat",
+    }
+  }
+  
+  return {
+    title: `${place.name} | Where Locals Eat`,
+    description: place.highlight,
+  }
+}
+
+interface PlaceDetailPageProps {
+  params: Promise<{ slug: string }>
+}
+
+export default async function PlaceDetailPage({ params }: PlaceDetailPageProps): Promise<React.ReactElement> {
+  const { slug } = await params
+  const place = findPlaceBySlug(slug)
 
   if (!place) {
     return (
@@ -40,9 +63,9 @@ export default function PlaceDetailPage({
 
         <h3 className="mt-6 text-sm font-semibold text-gray-600">Tags</h3>
         <div className="mt-2 flex flex-wrap gap-2">
-          {place.tags.map((t: string) => (
-            <span key={t} className="rounded-full bg-gray-100 px-2 py-1 text-xs">
-              {t}
+          {place.tags.map((tag) => (
+            <span key={tag} className="rounded-full bg-gray-100 px-2 py-1 text-xs">
+              {tag}
             </span>
           ))}
         </div>

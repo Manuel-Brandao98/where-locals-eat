@@ -1,16 +1,21 @@
 import "./globals.css"
 import Link from "next/link"
+import type { Metadata } from "next"
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Where Locals Eat — Porto Roots",
   description: "Traditional taverns & honest local food in Porto.",
+  generator: "Next.js",
+  robots: "follow, index",
 }
 
-export default function RootLayout({
-  children,
-}: {
+interface RootLayoutProps {
   children: React.ReactNode
-}) {
+}
+
+const CURRENT_YEAR = new Date().getFullYear()
+
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
       <body className="min-h-screen bg-white text-gray-900">
@@ -32,7 +37,7 @@ export default function RootLayout({
 
         <footer className="mt-12 border-t">
           <div className="mx-auto max-w-4xl p-4 text-sm text-gray-500">
-            © {new Date().getFullYear()} Where Locals Eat — Porto Roots
+            © {CURRENT_YEAR} Where Locals Eat — Porto Roots
           </div>
         </footer>
       </body>

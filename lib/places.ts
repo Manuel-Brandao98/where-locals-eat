@@ -1,14 +1,17 @@
+export type PlaceType = "Tavern" | "Traditional Restaurant" | "Casa de Pasto"
+export type PriceRange = "€" | "€€"
+
 export type Place = {
-  name: string
-  slug: string
-  area: string
-  type: "Tavern" | "Traditional Restaurant" | "Casa de Pasto"
-  priceRange: "€" | "€€"
-  tags: string[]
-  highlight: string
+  readonly name: string
+  readonly slug: string
+  readonly area: string
+  readonly type: PlaceType
+  readonly priceRange: PriceRange
+  readonly tags: readonly string[]
+  readonly highlight: string
 }
 
-export const places: Place[] = [
+export const places: readonly Place[] = [
   {
     name: "Tasco do Bolhão",
     slug: "tasco-do-bolhao",
@@ -36,4 +39,16 @@ export const places: Place[] = [
     tags: ["prato-feito", "sopa", "sobremesas"],
     highlight: "Daily plates that taste like home.",
   },
-]
+] as const
+
+/**
+ * Find a place by slug
+ * @param slug - The slug to search for
+ * @returns The place if found, undefined otherwise
+ */
+export function findPlaceBySlug(slug: string): Place | undefined {
+  if (!slug || typeof slug !== "string") {
+    return undefined
+  }
+  return places.find((place) => place.slug === slug.toLowerCase())
+}
