@@ -1,7 +1,22 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Performance optimizations
+  reactStrictMode: true,
+  
+  // Optimize images
+  images: {
+    formats: ["image/avif", "image/webp"],
+  },
+  
+  // Compress output
+  compress: true,
+  
+  // Generate ETags for better caching
+  generateEtags: true,
+  
+  // Production source maps
+  productionBrowserSourceMaps: false,
 };
 
 export default nextConfig;
