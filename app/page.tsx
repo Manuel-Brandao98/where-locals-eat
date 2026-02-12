@@ -1,4 +1,10 @@
 import Link from "next/link"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Home | Where Locals Eat",
+  description: "Traditional taverns & honest local food in Porto.",
+}
 
 export default function Home() {
   return (
